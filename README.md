@@ -13,4 +13,4 @@ Compatible only with Windows! Transparency is handled by the window manager / co
 7. When entering a new game, load a saved config with the ```Load``` button
 
 ## License
-This program is licensed under a GNU GPL v3 license, see [COPYING] for details.
+This program is licensed under a GNU GPL v3 license, see [COPYING](COPYING) for details.
