@@ -49,14 +49,14 @@ class SettingsScreen(object):
             for text, (enable, disp, unit, _, _, _) in self.canvas_elements.items():
                 if enable.get():
                     options[text] = (disp.get(), unit.get())
-            with open(f'{self.craft_name}_hud.json', 'w') as outf:
+            with open(f'configs/{self.craft_name}_hud.json', 'w') as outf:
                 json.dump(options, outf)
         pass
 
     def load(self):
         self.reload()
         if self.craft_name:
-            with open(f'{self.craft_name}_hud.json', 'r') as inf:
+            with open(f'configs/{self.craft_name}_hud.json', 'r') as inf:
                 options = json.load(inf)
 
                 for text, (disp, unit) in options.items():
