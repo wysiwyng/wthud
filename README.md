@@ -1,7 +1,7 @@
 # wthud
 Head-up Display for additional War Thunder data. Written in Python 3, uses data exposed by War Thunder on ```localhost:8111```. The shown data is configurable per aircraft.
 
-Compatible only with Windows! Transparency is handled by the window manager / compositor in most Linux distros, and therefore neither easy nor portable to handle.
+Compatible only with Windows! Transparency is handled by the window manager / compositor in most Linux distros, and is therefore neither easy nor portable to handle.
 
 ## Usage
 1. Download source code
