@@ -28,9 +28,14 @@ jobs:
     - name: Build single executable
       run: |
         pyinstaller wthud.py --noconfirm -F
-        cp -r ./configs/ ./dist/
-    - name: Package
-      uses: actions/upload-artifact@v2
+        7za a wthud.zip dist/wthud.exe configs
+        
+    - name: Push to release
+      uses: marvinpinto/action-automatic-releases@latest
       with:
-        name: wthud
-        path: ./dist/
+         repo_token: "${{ secrets.GITHUB_TOKEN }}"
+         automatic_release_tag: "latest"
+         prerelease: true
+         title: "Development Build"
+         files: |
+           wthud.zip
