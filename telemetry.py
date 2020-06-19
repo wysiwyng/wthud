@@ -120,6 +120,14 @@ def get_flight_data():
     except:
         return None
 
+def calc_additional_data(obj):
+    # get speed for further calculations
+    speed = obj.get('speed')
+    if not speed:
+        speed = obj.get('speed')
+
+
+
 if __name__ == "__main__":
     while True:
         ind = get_indicators()

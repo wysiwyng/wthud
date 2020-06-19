@@ -20,8 +20,11 @@ import tkinter as tk
 from tkinter import ttk
 
 import win32api, win32con, pywintypes
-from telemetry import get_flight_data
 import json
+
+from functools import partial
+
+from telemetry import get_flight_data
 
 class SettingsScreen(object):
     def __init__(self, master):
@@ -34,6 +37,14 @@ class SettingsScreen(object):
         self.reload_btn = ttk.Button(self.btn_frame, text='Reload', command=self.reload)
         self.save_btn = ttk.Button(self.btn_frame, text='Save Config', command=self.save)
         self.load_btn = ttk.Button(self.btn_frame, text='Load Config', command=self.load)
+
+        self.spinner_frame = ttk.Frame(self.master)
+        self.xpos_var = tk.IntVar()
+        self.xpos_var.set(25)
+        self.xpos_spinner = ttk.Spinbox(self.spinner_frame, width=10, from_=0, to=10000, textvariable=self.xpos_var)
+        self.ypos_var = tk.IntVar()
+        self.ypos_var.set(500)
+        self.ypos_spinner = ttk.Spinbox(self.spinner_frame, width=10, from_=0, to=10000, textvariable=self.ypos_var)
 
         self.scrollable_frame = ttk.Frame(self.canvas)
 
@@ -52,11 +63,17 @@ class SettingsScreen(object):
         self.craft_name = ''
 
         self.container.pack(fill="both", expand=True)
+
         self.btn_frame.pack()
         self.reload_btn.pack(side="left")
         self.save_btn.pack(side="left")
         self.load_btn.pack(side="left")
 
+        self.spinner_frame.pack()
+        ttk.Label(self.spinner_frame, text='X:').pack(side="left")
+        self.xpos_spinner.pack(side="left")
+        ttk.Label(self.spinner_frame, text='Y:').pack(side="left")
+        self.ypos_spinner.pack(side="left")
 
         self.canvas.pack(side="left", fill="both", expand=True)
         self.scrollbar.pack(side="right", fill="y")
@@ -72,17 +89,19 @@ class SettingsScreen(object):
                 json.dump(options, outf)
         pass
 
+    def load_name(self, fname):
+        with open(f'configs/{fname}_hud.json', 'r') as inf:
+            options = json.load(inf)
+
+            for text, (disp, unit) in options.items():
+                self.canvas_elements[text][0].set(1)
+                self.canvas_elements[text][1].set(disp)
+                self.canvas_elements[text][2].set(unit)
+
     def load(self):
         self.reload()
         if self.craft_name:
-            with open(f'configs/{self.craft_name}_hud.json', 'r') as inf:
-                options = json.load(inf)
-
-                for text, (disp, unit) in options.items():
-                    self.canvas_elements[text][0].set(1)
-                    self.canvas_elements[text][1].set(disp)
-                    self.canvas_elements[text][2].set(unit)
-            pass
+            self.load_name(self.craft_name)
 
     def add_to_canvas(self, text):
         enable = tk.IntVar()
@@ -119,6 +138,8 @@ class SettingsScreen(object):
             for k, v in obj.items():
                 self.add_to_canvas(k)
 
+        self.load_name('default')
+
 class HUDScreen(object):
     def __init__(self, master, canvas_elements):
         self.master = master
@@ -145,24 +166,41 @@ class HUDScreen(object):
         label_text = ''
 
         obj = get_flight_data()
-        try:
-            if obj:
-                rate = 100
-                for var_name, (on, disp, unit, _, _, _) in self.canvas_elements.items():
-                    if on.get():
-                        label_text += f'{disp.get():<10}{obj[var_name]:7.1f} {unit.get()}\n'
-        except:
-            pass
+
+        if obj:
+            rate = 100
+            for var_name, (on, disp, unit, _, _, _) in self.canvas_elements.items():
+                if on.get():
+                    try:
+                        label_text += f'{disp.get():<6}{obj[var_name]:7.1f} {unit.get()}\n'
+                    except:
+                        pass
+
 
         self.label.config(text=label_text)
 
         self.master.after(rate, self.update)
 
+    def set_size(self, x, y):
+        self.toplevel.geometry(f"+{x}+{y}")
 
 root = tk.Tk()
 
 app = SettingsScreen(root)
 hud = HUDScreen(root, app.canvas_elements)
+
+size_updater = lambda a, b, c: hud.set_size(app.xpos_var.get(), app.ypos_var.get())
+app.xpos_var.trace('w', size_updater)
+app.ypos_var.trace('w', size_updater)
+
+with open('configs/window.json', 'r') as inf:
+    sizes = json.load(inf)
+    app.xpos_var.set(sizes['xpos'])
+    app.ypos_var.set(sizes['ypos'])
+
 hud.update()
 
 root.mainloop()
+
+with open('configs/window.json', 'w') as outf:
+    json.dump({'xpos': app.xpos_var.get(), 'ypos': app.ypos_var.get()}, outf)
