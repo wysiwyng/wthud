@@ -20,6 +20,7 @@ War Thunder exposes craft telemetry data on a web interface at ```localhost:8111
 
 Data is collected from the in-game webserver using the ```requests``` library and displayed on screen with a transparent, undecorated Tk window. The data to be shown can be configured individually per aircraft, and is saved between sessions in json files residing inside the [configs](configs) folder.
 
+## Usage Disclaimer
 This tool is neither sponsored, endorsed or otherwise approved by Gaijin Entertainment. It merely presents readily available data in a comfortable manner. Use at your own risk, at the time of writing similar tools were more or less "tolerated" when asked about on Gaijin's forums. No liability will be held by the authors should this and similar tools be the reason for the ban or termination of your War Thunder account.
 
 ## Contributions
