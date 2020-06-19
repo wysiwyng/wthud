@@ -10,7 +10,7 @@ Compatible only with Windows! Transparency is handled by the window manager / co
 You need a python distribution for Windows, as it is not installed by default. A good choice is e.g. [Miniconda](https://docs.conda.io/en/latest/miniconda.html).
 
 ## Installation (Development builds)
-1. Download the latest zip package [here](https://github.com/wysiwyng/wthud/actions) (chose the topmost entry, go to artifacts, download away)
+1. Download the latest zip package [here](https://github.com/wysiwyng/wthud/releases/tag/latest) (chose the file ```wthud.zip```)
 2. Unzip the package wherever
 3. Run ```wthud.exe```
 
