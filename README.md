@@ -29,6 +29,7 @@ You need a python distribution for Windows, as it is not installed by default. A
     - Third text entry sets a format string for the data, see [here](https://docs.python.org/3/library/string.html#format-string-syntax)
 6. Save your custom configuration with the ```Save Config``` button
 7. Configuration is retained between battles, if you switch craft you need to either ```Reload``` or ```Load Config```, depending on if you already created a custom configuration or if you just want the default config
+8. Change HUD position using X and Y spinboxes on the bottom of the config GUI
 
 ## Implementation Details
 War Thunder exposes craft telemetry data on a web interface at ```localhost:8111``` during air battles. This data can be looked at on a second screen in a quite awkward GUI. This project aims to make the presented information more useful by overlaying select telemetry data directly on the game window, similarly to the already present (but limited) data.
