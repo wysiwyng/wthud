@@ -85,7 +85,7 @@ class SettingsScreen(object):
             options = {}
             for text, (enable, disp, unit, fmt, _, _, _, _) in self.canvas_elements.items():
                 if enable.get():
-                    options[text] = (disp.get(), unit.get())
+                    options[text] = (disp.get(), unit.get(), fmt.get())
 
             global configs_base_path
             with open(os.path.join(configs_base_path, f'{self.craft_name}_hud.json'), 'w') as outf:
