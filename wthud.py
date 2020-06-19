@@ -32,7 +32,7 @@ class SettingsScreen(object):
         self.master = master
         self.container = ttk.Frame(self.master)
         self.canvas = tk.Canvas(self.container)
-        self.scrollbar = ttk.Scrollbar(self.container, orient="vertical", command=self.canvas.yview)
+        self.scrollbar = ttk.Scrollbar(self.container, orient='vertical', command=self.canvas.yview)
 
         self.btn_frame = ttk.Frame(self.master)
         self.reload_btn = ttk.Button(self.btn_frame, text='Reload', command=self.reload_defaults)
@@ -50,34 +50,34 @@ class SettingsScreen(object):
         self.scrollable_frame = ttk.Frame(self.canvas)
 
         self.scrollable_frame.bind(
-            "<Configure>",
+            '<Configure>',
             lambda e: self.canvas.configure(
-                scrollregion=self.canvas.bbox("all")
+                scrollregion=self.canvas.bbox('all')
             )
         )
 
-        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor='nw')
 
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
         self.canvas_elements = {}
         self.craft_name = ''
 
-        self.container.pack(fill="both", expand=True)
+        self.container.pack(fill='both', expand=True)
 
         self.btn_frame.pack()
-        self.reload_btn.pack(side="left")
-        self.save_btn.pack(side="left")
-        self.load_btn.pack(side="left")
+        self.reload_btn.pack(side='left')
+        self.save_btn.pack(side='left')
+        self.load_btn.pack(side='left')
 
         self.spinner_frame.pack()
-        ttk.Label(self.spinner_frame, text='X:').pack(side="left")
-        self.xpos_spinner.pack(side="left")
-        ttk.Label(self.spinner_frame, text='Y:').pack(side="left")
-        self.ypos_spinner.pack(side="left")
+        ttk.Label(self.spinner_frame, text='X:').pack(side='left')
+        self.xpos_spinner.pack(side='left')
+        ttk.Label(self.spinner_frame, text='Y:').pack(side='left')
+        self.ypos_spinner.pack(side='left')
 
-        self.canvas.pack(side="left", fill="both", expand=True)
-        self.scrollbar.pack(side="right", fill="y")
+        self.canvas.pack(side='left', fill='both', expand=True)
+        self.scrollbar.pack(side='right', fill='y')
 
 
     def save(self):
@@ -109,10 +109,10 @@ class SettingsScreen(object):
                     except:
                         pass
         elif fpath != 'default':
-            print(f"no config for {fname} found, loading defaults")
+            print(f'no config for {fname} found, loading defaults')
             self.load_name('default')
         else:
-            raise FileNotFoundError("default config file not found")
+            raise FileNotFoundError('default config file not found')
 
     def load(self):
         self.reload()
@@ -159,7 +159,7 @@ class SettingsScreen(object):
 
         if obj:
             self.craft_name = obj['type']
-            for k, v in obj.items():
+            for k in obj.keys():
                 self.add_to_canvas(k)
 
 class HUDScreen(object):
@@ -170,11 +170,11 @@ class HUDScreen(object):
         self.toplevel = tk.Toplevel(self.master)
         self.label = tk.Label(self.toplevel, text='Climb Rate', font=('Courier New', '14', 'bold'), fg='white', bg='black', justify=tk.LEFT)
         self.toplevel.overrideredirect(True)
-        self.toplevel.geometry("+25+500")
+        self.toplevel.geometry('+25+500')
         self.toplevel.lift()
-        self.toplevel.wm_attributes("-topmost", True)
-        self.toplevel.wm_attributes("-disabled", True)
-        self.toplevel.wm_attributes("-transparentcolor", "black")
+        self.toplevel.wm_attributes('-topmost', True)
+        self.toplevel.wm_attributes('-disabled', True)
+        self.toplevel.wm_attributes('-transparentcolor', 'black')
 
         self.data_valid = False
         self.was_valid = False
@@ -214,7 +214,7 @@ class HUDScreen(object):
         self.master.after(rate, self.update)
 
     def set_size(self, x, y):
-        self.toplevel.geometry(f"+{x}+{y}")
+        self.toplevel.geometry(f'+{x}+{y}')
 
 app_path = os.path.realpath(__file__)
 configs_base_path = os.path.join(os.path.dirname(app_path), 'configs')
