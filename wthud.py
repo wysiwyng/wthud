@@ -82,7 +82,7 @@ class SettingsScreen(object):
     def save(self):
         if self.craft_name:
             options = {}
-            for text, (enable, disp, unit, _, _, _) in self.canvas_elements.items():
+            for text, (enable, disp, unit, fmt, _, _, _, _) in self.canvas_elements.items():
                 if enable.get():
                     options[text] = (disp.get(), unit.get())
             with open(f'configs/{self.craft_name}_hud.json', 'w') as outf:
@@ -93,10 +93,14 @@ class SettingsScreen(object):
         with open(f'configs/{fname}_hud.json', 'r') as inf:
             options = json.load(inf)
 
-            for text, (disp, unit) in options.items():
-                self.canvas_elements[text][0].set(1)
-                self.canvas_elements[text][1].set(disp)
-                self.canvas_elements[text][2].set(unit)
+            for text, (disp, unit, fmt) in options.items():
+                try:
+                    self.canvas_elements[text][0].set(1)
+                    self.canvas_elements[text][1].set(disp)
+                    self.canvas_elements[text][2].set(unit)
+                    self.canvas_elements[text][3].set(fmt)
+                except:
+                    pass
 
     def load(self):
         self.reload()
@@ -107,25 +111,30 @@ class SettingsScreen(object):
         enable = tk.IntVar()
         disp = tk.StringVar()
         unit = tk.StringVar()
+        fmt = tk.StringVar()
         disp.set(text)
         unit.set('')
+        fmt.set('7.1f')
 
         cb = ttk.Checkbutton(self.scrollable_frame, text=text, variable=enable)
         e = ttk.Entry(self.scrollable_frame, width=20, textvariable=disp)
-        e2 = ttk.Entry(self.scrollable_frame, width=20, textvariable=unit)
+        e2 = ttk.Entry(self.scrollable_frame, width=10, textvariable=unit)
+        e3 = ttk.Entry(self.scrollable_frame, width=10, textvariable=fmt)
 
         cb.grid(column=0, row=len(self.canvas_elements), sticky=tk.W)
         e.grid(column=1, row=len(self.canvas_elements))
         e2.grid(column=2, row=len(self.canvas_elements))
+        e3.grid(column=3, row=len(self.canvas_elements))
 
         #self.canvas_elements.append((enable, disp, unit, text, cb, e, e2))
-        self.canvas_elements[text] = (enable, disp, unit, cb, e, e2)
+        self.canvas_elements[text] = (enable, disp, unit, fmt, cb, e, e2, e3)
 
     def destroy_canvas(self):
-        for _, (_, _, _, cb, e, e2) in self.canvas_elements.items():
+        for _, (_, _, _, _, cb, e, e2, e3) in self.canvas_elements.items():
             cb.destroy()
             e.destroy()
             e2.destroy()
+            e3.destroy()
 
         self.canvas_elements.clear()
 
@@ -169,10 +178,10 @@ class HUDScreen(object):
 
         if obj:
             rate = 100
-            for var_name, (on, disp, unit, _, _, _) in self.canvas_elements.items():
+            for var_name, (on, disp, unit, fmt, _, _, _, _) in self.canvas_elements.items():
                 if on.get():
                     try:
-                        label_text += f'{disp.get():<6}{obj[var_name]:7.1f} {unit.get()}\n'
+                        label_text += f'{disp.get():<6}{obj[var_name]:{fmt.get()}} {unit.get()}\n'
                     except:
                         pass
 

@@ -126,8 +126,6 @@ def calc_additional_data(obj):
     if not speed:
         speed = obj.get('speed')
 
-
-
 if __name__ == "__main__":
     while True:
         ind = get_indicators()
