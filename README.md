@@ -1,6 +1,6 @@
 # wthud
 <a href="https://github.com/wysiwyng/wthud/actions">
-    <img src="https://github.com/wysiwyng/wthud/workflows/Standalone%20Windows%20.exe/badge.svg" alt="Standalone Windows .exe">
+    <img src="https://github.com/wysiwyng/wthud/workflows/pyinstaller-win-dev/badge.svg" alt="pyinstaller-win-dev">
 </a>
 
 Head-up Display for additional War Thunder air battle data. Written in Python 3.7+, uses data exposed by War Thunder on ```localhost:8111```. The shown data is configurable per aircraft.
