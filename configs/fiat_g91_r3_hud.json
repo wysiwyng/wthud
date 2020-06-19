@@ -1,1 +1,1 @@
-{"aviahorizon_pitch": ["PTCH", "\u00b0"], "mach": ["MACH", ""], "TAS, km/h": ["TAS", "km/h"], "AoA, deg": ["AoA", "\u00b0"], "Vy, m/s": ["Vy", "m/s"], "Wx, deg/s": ["Wx", "\u00b0/s"], "RPM 1": ["RPM", "1/s"], "thrust 1, kgs": ["THRS", "kgs"]}
+{"aviahorizon_pitch": ["PTCH", "\u00b0", "7.1f"], "mach": ["MACH", "", "7.2f"], "TAS, km/h": ["TAS", "km/h", "7.1f"], "AoA, deg": ["AoA", "\u00b0", "7.1f"], "Vy, m/s": ["Vy", "m/s", "7.1f"], "Wx, deg/s": ["Wx", "\u00b0/s", "7.1f"], "RPM 1": ["RPM", "1/s", "7.1f"], "thrust 1, kgs": ["THRS", "kgs", "7.1f"]}
