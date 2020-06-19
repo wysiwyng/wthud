@@ -5,15 +5,28 @@ Compatible only with Windows! Transparency is handled by the window manager / co
 
 You need a python distribution for Windows, as it is not installed by default. A good choice is e.g. [Miniconda](https://docs.conda.io/en/latest/miniconda.html).
 
+## Installation (Development builds)
+1. Download the latest zip package [https://github.com/wysiwyng/wthud/actions](here) (chose the topmost entry, go to artifacts, download away)
+2. Unzip the package wherever
+3. Run ```wthud.exe```
+
+## Installation (From source)
+1. Clone / Download this repo
+2. Install python dependencies: ```pip install -r requirements.txt```
+3. Run ```python wthud.py```
+
 ## Usage
-1. Download source code
-2. No external libraries needed, just run ```python wthud.py```
-3. War Thunder needs to be in borderless or windowed mode, fullscreen won't show the overlay
-4. Start War Thunder, for initial configuration launch a test flight
-5. Press on ```Reload```, all variables supported by the current craft will be shown
-6. Chose the variables that should be shown in the HUD by checking them. Give names and units in the two checkboxes
-7. Save your config with the ```Save``` button.
-8. When entering a new game, load a saved config with the ```Load``` button
+1. Complete installation as above
+2. Configure War Thunder to run in either windowed or borderless mode
+3. Join an air battle or start a test flight
+4. Click the ```Reload``` button, all available telemetry data is loaded into the config screen, also a basic minimal default HUD is loaded
+5. For custom per-aircraft configuration, change the parameters in the config UI:
+    - Checkbox enables a variable
+    - First text entry sets the display name in the HUD
+    - Second text entry sets a unit shown behind the data value
+    - Third text entry sets a format string for the data, see [https://docs.python.org/3/library/string.html#format-string-syntax](here)
+6. Save your custom configuration with the ```Save Config``` button
+7. Configuration is retained between battles, if you switch craft you need to either ```Reload``` or ```Load Config```, depending on if you already created a custom configuration or if you just want the default config
 
 ## Implementation Details
 War Thunder exposes craft telemetry data on a web interface at ```localhost:8111``` during air battles. This data can be looked at on a second screen in a quite awkward GUI. This project aims to make the presented information more useful by overlaying select telemetry data directly on the game window, similarly to the already present (but limited) data.
@@ -22,6 +35,8 @@ Data is collected from the in-game webserver using the ```requests``` library an
 
 ## Usage Disclaimer
 This tool is neither sponsored, endorsed or otherwise approved by Gaijin Entertainment. It merely presents readily available data in a comfortable manner. Use at your own risk, at the time of writing similar tools were more or less "tolerated" when asked about on Gaijin's forums. No liability will be held by the authors should this and similar tools be the reason for the ban or termination of your War Thunder account.
+
+This tool was only properly tested with a handful of planes from the German tech tree. Other planes might be broken in this tool, please report your issue in the GitHub issues tab.
 
 ## Contributions
 Pull Requests and issues are welcome, expect a slow response as this project is developed in the free time of volunteers.
@@ -35,6 +50,7 @@ Pull Requests and issues are welcome, expect a slow response as this project is 
 - [ ] Code cleanup / documentation (WIP)
 - [ ] Cross-platform support (possibly impossible)
 - [ ] Extension interface for calculated telemetry data (WIP)
+- [ ] Make telemetry interface asynchronous (WIP)
 
 ## License
 This program is licensed under a GNU GPL v3 license, see [COPYING](COPYING) for details.
