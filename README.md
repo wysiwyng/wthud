@@ -23,15 +23,18 @@ You need a python distribution for Windows, as it is not installed by default. A
 1. Complete installation as above
 2. Configure War Thunder to run in either windowed or borderless mode
 3. Join an air battle or start a test flight
-4. Click the ```Reload``` button, all available telemetry data is loaded into the config screen, also a basic minimal default HUD is loaded
+4. All available telemetry data is loaded into the config screen once the match starts, also a basic minimal default HUD is loaded
 5. For custom per-aircraft configuration, change the parameters in the config UI:
     - Checkbox enables a variable
     - First text entry sets the display name in the HUD
     - Second text entry sets a unit shown behind the data value
     - Third text entry sets a format string for the data, see [here](https://docs.python.org/3/library/string.html#format-string-syntax)
 6. Save your custom configuration with the ```Save Config``` button
-7. Configuration is retained between battles, if you switch craft you need to either ```Reload``` or ```Load Config```, depending on if you already created a custom configuration or if you just want the default config
+7. Once a new battle starts, wthud tries to load a saved HUD configuration for the new aircraft. If none is found, the default configuration is loaded
 8. Change HUD position using X and Y spinboxes on the bottom of the config GUI
+
+## Advanced Usage
+You can edit the HUD configurations manually, they are saved in a JSON format inside the [configs](configs) folder. You can also replace the default HUD by editing the corresponding [file](configs/default_hud.json).
 
 ## Implementation Details
 War Thunder exposes craft telemetry data on a web interface at ```localhost:8111``` during air battles. This data can be looked at on a second screen in a quite awkward GUI. This project aims to make the presented information more useful by overlaying select telemetry data directly on the game window, similarly to the already present (but limited) data.

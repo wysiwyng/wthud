@@ -1,1 +1,57 @@
-{"aviahorizon_pitch": ["PTCH", "\u00b0", "7.1f"], "TAS, km/h": ["TAS", "km/h", "7.1f"], "AoA, deg": ["AoA", "\u00b0", "7.1f"], "Vy, m/s": ["VS", "m/s", "7.1f"], "power 1, hp": ["PWR 1", "hp", "7.1f"], "RPM 1": ["RPM 1", "1/s", "7.1f"], "efficiency 1, %": ["EFF 1", "%", "7.1f"], "power 2, hp": ["PWR 2", "hp", "7.1f"], "RPM 2": ["RPM 2", "1/s", "7.1f"], "efficiency 2, %": ["EFF 2", "%", "7.1f"]}
+{
+    "aviahorizon_pitch": [
+        "PTCH",
+        "\u00b0",
+        "7.1f"
+    ],
+    "TAS, km/h": [
+        "TAS",
+        "km/h",
+        "7.0f"
+    ],
+    "M": [
+        "MACH",
+        "",
+        "7.2f"
+    ],
+    "AoA, deg": [
+        "AoA",
+        "\u00b0",
+        "7.1f"
+    ],
+    "Vy, m/s": [
+        "VS",
+        "m/s",
+        "7.1f"
+    ],
+    "power 1, hp": [
+        "PWR 1",
+        "hp",
+        "7.1f"
+    ],
+    "RPM 1": [
+        "RPM 1",
+        "1/s",
+        "7.0f"
+    ],
+    "efficiency 1, %": [
+        "EFF 1",
+        "%",
+        "7.1f"
+    ],
+    "power 2, hp": [
+        "PWR 2",
+        "hp",
+        "7.1f"
+    ],
+    "RPM 2": [
+        "RPM 2",
+        "1/s",
+        "7.0f"
+    ],
+    "efficiency 2, %": [
+        "EFF 2",
+        "%",
+        "7.1f"
+    ]
+}

@@ -89,22 +89,30 @@ class SettingsScreen(object):
 
             global configs_base_path
             with open(os.path.join(configs_base_path, f'{self.craft_name}_hud.json'), 'w') as outf:
-                json.dump(options, outf)
+                json.dump(options, outf, indent=4)
         pass
 
     def load_name(self, fname):
         global configs_base_path
-        with open(os.path.join(configs_base_path, f'{fname}_hud.json'), 'r') as inf:
-            options = json.load(inf)
 
-            for text, (disp, unit, fmt) in options.items():
-                try:
-                    self.canvas_elements[text][0].set(1)
-                    self.canvas_elements[text][1].set(disp)
-                    self.canvas_elements[text][2].set(unit)
-                    self.canvas_elements[text][3].set(fmt)
-                except:
-                    pass
+        fpath = os.path.join(configs_base_path, f'{fname}_hud.json')
+        if os.path.exists(fpath):
+            with open(fpath, 'r') as inf:
+                options = json.load(inf)
+
+                for text, (disp, unit, fmt) in options.items():
+                    try:
+                        self.canvas_elements[text][0].set(1)
+                        self.canvas_elements[text][1].set(disp)
+                        self.canvas_elements[text][2].set(unit)
+                        self.canvas_elements[text][3].set(fmt)
+                    except:
+                        pass
+        elif fpath != 'default':
+            print(f"no config for {fname} found, loading defaults")
+            self.load_name('default')
+        else:
+            raise FileNotFoundError("default config file not found")
 
     def load(self):
         self.reload()
@@ -155,9 +163,10 @@ class SettingsScreen(object):
                 self.add_to_canvas(k)
 
 class HUDScreen(object):
-    def __init__(self, master, canvas_elements):
+    def __init__(self, master, canvas_elements, reload_fcn):
         self.master = master
         self.canvas_elements = canvas_elements
+        self.reload_fcn = reload_fcn
         self.toplevel = tk.Toplevel(self.master)
         self.label = tk.Label(self.toplevel, text='Climb Rate', font=('Courier New', '14', 'bold'), fg='white', bg='black', justify=tk.LEFT)
         self.toplevel.overrideredirect(True)
@@ -166,6 +175,9 @@ class HUDScreen(object):
         self.toplevel.wm_attributes("-topmost", True)
         self.toplevel.wm_attributes("-disabled", True)
         self.toplevel.wm_attributes("-transparentcolor", "black")
+
+        self.data_valid = False
+        self.was_valid = False
 
         hWindow = pywintypes.HANDLE(int(self.toplevel.frame(), 16))
         # http://msdn.microsoft.com/en-us/library/windows/desktop/ff700543(v=vs.85).aspx
@@ -183,14 +195,20 @@ class HUDScreen(object):
 
         if obj:
             rate = 100
+            self.data_valid = True
             for var_name, (on, disp, unit, fmt, _, _, _, _) in self.canvas_elements.items():
                 if on.get():
                     try:
                         label_text += f'{disp.get():<6}{obj[var_name]:{fmt.get()}} {unit.get()}\n'
                     except:
                         pass
+        else:
+            self.data_valid = False
 
+        if self.was_valid != self.data_valid:
+            self.reload_fcn()
 
+        self.was_valid = self.data_valid
         self.label.config(text=label_text)
 
         self.master.after(rate, self.update)
@@ -207,7 +225,7 @@ root.title('WTHUD Config')
 root.minsize(430, 600)
 
 app = SettingsScreen(root)
-hud = HUDScreen(root, app.canvas_elements)
+hud = HUDScreen(root, app.canvas_elements, app.load)
 
 size_updater = lambda a, b, c: hud.set_size(app.xpos_var.get(), app.ypos_var.get())
 app.xpos_var.trace('w', size_updater)
@@ -223,4 +241,4 @@ hud.update()
 root.mainloop()
 
 with open(window_config_path, 'w') as outf:
-    json.dump({'xpos': app.xpos_var.get(), 'ypos': app.ypos_var.get()}, outf)
+    json.dump({'xpos': app.xpos_var.get(), 'ypos': app.ypos_var.get()}, outf, indent=4)
