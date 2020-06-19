@@ -39,7 +39,12 @@ METRICS_PLANES = ['p-', 'f-', 'f2', 'f3', 'f4', 'f6', 'f7', 'f8', 'f9', 'os',
                   'xa', 'xf', 'sp', 'hu', 'ty', 'fi', 'gl', 'ni', 'fu', 'fu',
                   'se', 'bl', 'be', 'su', 'te', 'st', 'mo', 'we', 'ha']
 
+TIMEOUT_VAL = 0.05
+
 _s = requests.Session()
+
+def get_json(url):
+    return _s.get(url, timeout=TIMEOUT_VAL).json()
 
 def find_altitude(indicators):
     name = indicators['type']
@@ -66,7 +71,7 @@ def find_altitude(indicators):
 
 def get_indicators():
     try:
-        obj = _s.get(URL_INDICATORS, timeout=0.1).json()
+        obj = get_json(URL_INDICATORS)
 
         if obj['valid']:
             obj['aviahorizon_pitch'] = -obj['aviahorizon_pitch'] if 'aviahorizon_pitch' in obj else None
@@ -80,7 +85,7 @@ def get_indicators():
 
 def get_state():
     try:
-        obj = _s.get(URL_STATE, timeout=0.1).json()
+        obj = get_json(URL_STATE)
 
         if obj['valid']:
             return obj
@@ -89,7 +94,7 @@ def get_state():
 
 def get_map_obj():
     try:
-        obj = _s.get(URL_MAP_OBJ, timeout=0.1).json()
+        obj = get_json(URL_MAP_OBJ)
 
         if obj['valid']:
             return obj
@@ -98,7 +103,7 @@ def get_map_obj():
 
 def get_map_info():
     try:
-        obj = _s.get(URL_MAP_INFO, timeout=0.1).json()
+        obj = get_json(URL_MAP_INFO)
 
         if obj['valid']:
             return obj
