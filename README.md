@@ -6,7 +6,7 @@ Compatible only with Windows! Transparency is handled by the window manager / co
 You need a python distribution for Windows, as it is not installed by default. A good choice is e.g. [Miniconda](https://docs.conda.io/en/latest/miniconda.html).
 
 ## Installation (Development builds)
-1. Download the latest zip package [https://github.com/wysiwyng/wthud/actions](here) (chose the topmost entry, go to artifacts, download away)
+1. Download the latest zip package [here](https://github.com/wysiwyng/wthud/actions) (chose the topmost entry, go to artifacts, download away)
 2. Unzip the package wherever
 3. Run ```wthud.exe```
 
@@ -24,7 +24,7 @@ You need a python distribution for Windows, as it is not installed by default. A
     - Checkbox enables a variable
     - First text entry sets the display name in the HUD
     - Second text entry sets a unit shown behind the data value
-    - Third text entry sets a format string for the data, see [https://docs.python.org/3/library/string.html#format-string-syntax](here)
+    - Third text entry sets a format string for the data, see [here](https://docs.python.org/3/library/string.html#format-string-syntax)
 6. Save your custom configuration with the ```Save Config``` button
 7. Configuration is retained between battles, if you switch craft you need to either ```Reload``` or ```Load Config```, depending on if you already created a custom configuration or if you just want the default config
 
