@@ -29,7 +29,7 @@ jobs:
         pip install pyinstaller
         pip install -r requirements.txt
 
-        - name: Build single executable
+    - name: Build single executable
       run: |
         pyinstaller wthud.py --noconfirm -F
         7z a wthud.zip ./dist/wthud.exe configs
