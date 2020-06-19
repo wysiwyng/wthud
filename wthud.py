@@ -21,6 +21,7 @@ from tkinter import ttk
 
 import win32api, win32con, pywintypes
 import json
+import os
 
 from functools import partial
 
@@ -34,7 +35,7 @@ class SettingsScreen(object):
         self.scrollbar = ttk.Scrollbar(self.container, orient="vertical", command=self.canvas.yview)
 
         self.btn_frame = ttk.Frame(self.master)
-        self.reload_btn = ttk.Button(self.btn_frame, text='Reload', command=self.reload)
+        self.reload_btn = ttk.Button(self.btn_frame, text='Reload', command=self.reload_defaults)
         self.save_btn = ttk.Button(self.btn_frame, text='Save Config', command=self.save)
         self.load_btn = ttk.Button(self.btn_frame, text='Load Config', command=self.load)
 
@@ -85,12 +86,15 @@ class SettingsScreen(object):
             for text, (enable, disp, unit, fmt, _, _, _, _) in self.canvas_elements.items():
                 if enable.get():
                     options[text] = (disp.get(), unit.get())
-            with open(f'configs/{self.craft_name}_hud.json', 'w') as outf:
+
+            global configs_base_path
+            with open(os.path.join(configs_base_path, f'{self.craft_name}_hud.json'), 'w') as outf:
                 json.dump(options, outf)
         pass
 
     def load_name(self, fname):
-        with open(f'configs/{fname}_hud.json', 'r') as inf:
+        global configs_base_path
+        with open(os.path.join(configs_base_path, f'{fname}_hud.json'), 'r') as inf:
             options = json.load(inf)
 
             for text, (disp, unit, fmt) in options.items():
@@ -137,6 +141,9 @@ class SettingsScreen(object):
             e3.destroy()
 
         self.canvas_elements.clear()
+    def reload_defaults(self):
+        self.reload()
+        self.load_name('default')
 
     def reload(self):
         self.destroy_canvas()
@@ -146,8 +153,6 @@ class SettingsScreen(object):
             self.craft_name = obj['type']
             for k, v in obj.items():
                 self.add_to_canvas(k)
-
-        self.load_name('default')
 
 class HUDScreen(object):
     def __init__(self, master, canvas_elements):
@@ -193,7 +198,13 @@ class HUDScreen(object):
     def set_size(self, x, y):
         self.toplevel.geometry(f"+{x}+{y}")
 
+app_path = os.path.realpath(__file__)
+configs_base_path = os.path.join(os.path.dirname(app_path), 'configs')
+window_config_path = os.path.join(configs_base_path, 'window.json')
+
 root = tk.Tk()
+root.title('WTHUD Config')
+root.minsize(430, 600)
 
 app = SettingsScreen(root)
 hud = HUDScreen(root, app.canvas_elements)
@@ -202,7 +213,7 @@ size_updater = lambda a, b, c: hud.set_size(app.xpos_var.get(), app.ypos_var.get
 app.xpos_var.trace('w', size_updater)
 app.ypos_var.trace('w', size_updater)
 
-with open('configs/window.json', 'r') as inf:
+with open(window_config_path, 'r') as inf:
     sizes = json.load(inf)
     app.xpos_var.set(sizes['xpos'])
     app.ypos_var.set(sizes['ypos'])
@@ -211,5 +222,5 @@ hud.update()
 
 root.mainloop()
 
-with open('configs/window.json', 'w') as outf:
+with open(window_config_path, 'w') as outf:
     json.dump({'xpos': app.xpos_var.get(), 'ypos': app.ypos_var.get()}, outf)
