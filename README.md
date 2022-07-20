@@ -3,6 +3,11 @@
     <img src="https://github.com/wysiwyng/wthud/workflows/pyinstaller-win-dev/badge.svg" alt="pyinstaller-win-dev">
 </a>
 
+## Notice
+This project is obsolete. It has been superseeded by a new implementation in C# / .Net / Windows Forms. See here: https://github.com/wysiwyng/wthud2. No further updates will be published here.
+
+## Description
+
 Head-up Display for additional War Thunder air battle data. Written in Python 3.7+, uses data exposed by War Thunder on ```localhost:8111```. The shown data is configurable per aircraft.
 
 Compatible only with Windows! Transparency is handled by the window manager / compositor in most Linux distros, and is therefore neither easy nor portable to handle.
